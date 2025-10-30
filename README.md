@@ -86,6 +86,7 @@ Representa o usuário que consome os serviços. Herda de `Usuario`.
 | Campo | Tipo | Descrição |
 | :--- | :--- | :--- |
 | `nome` | `String` | Nome completo do cliente. |
+| `email` | `String` | E-mail de contato. |
 | `telefone` | `String` | Telefone de contato. |
 
 ### `Profissional`
@@ -188,7 +189,7 @@ Authorization: Bearer <token>
 Content-Type: application/json
 
 {
-  "login": "joao.silva@email.com",
+  "email": "joao.silva@email.com",
   "senha": "senha123",
   "nome": "João da Silva",
   "telefone": "11987654321"
@@ -204,7 +205,7 @@ Content-Type: application/json
   "id": 1,
   "nome": "João da Silva",
   "telefone": "11987654321",
-  "login": "joao.silva@email.com"
+  "email": "joao.silva@email.com"
 }
 ```
 
