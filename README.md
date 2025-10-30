@@ -241,7 +241,7 @@ Content-Type: application/json
 
 ---
 
-## Descrição de Como Executar o Projeto Localmente
+## ⚙️ Descrição de Como Executar o Projeto Localmente
 
 Para executar o projeto **Tudook** em sua máquina local, siga os passos abaixo:
 
@@ -274,19 +274,19 @@ Para executar o projeto **Tudook** em sua máquina local, siga os passos abaixo:
 
 --- 
 
-## Outros Conteúdos Relevantes Implementados no Projeto
+## 💡 Outros Conteúdos Relevantes Implementados no Projeto
 
-### 1. Sistema de Auditoria (LogAuditoria)
+### 🕵️‍♀️ 1. Sistema de Auditoria (LogAuditoria)
 
 O projeto implementa um sistema de log detalhado para rastrear ações importantes. Sempre que uma entidade é criada, atualizada ou excluída, um registro é gravado na tabela de logs, permitindo a rastreabilidade completa das operações.
 
-### 2. Segurança Baseada em JWT
+### 🔒 2. Segurança Baseada em JWT
 
 Toda a API (exceto o login) é protegida por tokens JWT. O fluxo de segurança inclui:
 *   **`AuthController`:** Rota para gerar o token.
 *   **`JwtService`:** Serviço para criação e validação do token.
 *   **`SecurityFilter`:** Filtro que intercepta todas as requisições para validar o token antes de permitir o acesso aos _endpoints_.
 
-### 3. Uso de DTOs (Data Transfer Objects)
+### 🧾 3. Uso de DTOs (Data Transfer Objects)
 
 O projeto utiliza DTOs (`AgendamentoCreateDto`, `ClienteResponseDto`, etc.) para desacoplar as entidades do banco de dados (Models) da camada de transporte (Controllers), garantindo a validação dos dados de entrada e a exposição controlada dos dados de saída.
