@@ -39,8 +39,12 @@ O **Cuidar+** oferece uma solução digital para centralizar, automatizar e audi
 ## 🛠️ Tecnologias Principais
 
 * **Java 17+**
+* **Maven**
 * **Spring Boot** (Framework principal)
 * **Spring Data JPA** (Persistência e Banco de Dados)
+* **Spring Validation**
+* **Spring Security** (Gerenciamento de autenticação e autorização)
+* **JWT** (Tokens Web JSON para segurança)
 * **Padrão RESTful**
 * **DTOs** (Para transferência de dados)
 
