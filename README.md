@@ -137,6 +137,7 @@ Registra todas as ações importantes no sistema (criação, atualização, excl
 | `entidadeId` | `Long` | ID da entidade afetada. |
 
 Para acessar a modelagem REST completa, detalhando todos os endpoints e regras de autorização, consulte nosso [roteiro.](https://github.com/LaraDondossola/Projeto-backend/tree/main/Roteiro%20de%20requisi%C3%A7%C3%B5es%20e%20respostas)
+
 ---
 
 ## 🌐 Descrição de Cada uma das Rotas
