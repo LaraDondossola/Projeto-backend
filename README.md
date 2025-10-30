@@ -157,7 +157,7 @@ POST /auth/login
 Content-Type: application/json
 
 {
-  "login": "usuario@exemplo.com",
+  "email": "usuario@exemplo.com",
   "senha": "senhaforte123"
 }
 ```
