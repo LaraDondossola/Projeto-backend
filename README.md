@@ -249,7 +249,7 @@ Content-Type: application/json
 
 ## ⚙️ Descrição de Como Executar o Projeto Localmente
 
-Para executar o projeto **Tudook** em sua máquina local, siga os passos abaixo:
+Para executar o projeto **cuidar+** em sua máquina local, siga os passos abaixo:
 
 ### Pré-requisitos
 
