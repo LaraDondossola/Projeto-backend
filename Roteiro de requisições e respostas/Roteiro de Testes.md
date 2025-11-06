@@ -17,7 +17,7 @@ Este roteiro fornece um guia passo a passo para testar as regras de permissão d
 
 | Ação | Requisição | JSON | Resultado Esperado | Observações |
 | :--- | :--- | :--- | :--- | :--- |
-| **Criar Profissional** | `POST /profissionais` | ```json\n{\n  "nome": "Profissional Teste",\n  "email": "prof@teste.com",\n  "telefone": "11912345678",\n  "especialidade": "Massagista"\n}\n``` | `201 Created` (Retorna `<ID_PROFISSIONAL>`) | Salve o ID para uso nos testes. |
+| **Criar Profissional** | `POST /profissionais` | ```{ "nome": "Profissional Teste", "email": "prof@teste.com", "telefone": "11912345678", "especialidade": "Massagista", "senha" : "senhaforte123"}\n``` | `201 Created` (Retorna `<ID_PROFISSIONAL>`) | Salve o ID para uso nos testes. |
 | **Criar Serviço** | `POST /servicos` | ```json\n{\n  "nome": "Massagem Relaxante",\n  "descricao": "Sessão de 60 minutos.",\n  "duracaoEmMinutos": 60,\n  "preco": 120.00\n}\n``` | `201 Created` (Retorna `<ID_SERVICO>`) | Salve o ID para uso nos testes. |
 
 ---
