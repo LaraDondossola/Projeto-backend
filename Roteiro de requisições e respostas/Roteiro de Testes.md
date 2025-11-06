@@ -46,7 +46,7 @@ Este roteiro fornece um guia passo a passo para testar as regras de permissão d
 
 | Ação | Requisição | JSON | Resultado Esperado | Observações |
 | :--- | :--- | :--- | :--- | :--- |
-| **Criar Cliente** | `POST /clientes` | ```json\n{\n  "nome": "Cliente de Teste",\n  "email": "cliente@teste.com",\n  "telefone": "11999999999",\n  "senha": "senha123"\n}\n``` | `201 Created` (Retorna `<ID_CLIENTE>`) | Salve o ID para uso nos testes. |
+| **Criar Cliente** | `POST /clientes` | ```{  "nome": "Cliente de Teste","email": "cliente@teste.com","senha": "senha123" , "telefone": "11999999999"}\| `201 Created` (Retorna `<ID_CLIENTE>`) | Salve o ID para uso nos testes. |
 | **Login Cliente** | `POST /auth/login` | `{"email": "cliente@teste.com", "senha": "senha123"}` | `200 OK` (Retorna `<TOKEN_CLIENTE>`) | Salve o token para uso nos testes. |
 | **Criar Agendamento** | `POST /agendamentos` | ```json\n{\n  "clienteId": <ID_CLIENTE>,\n  "profissionalId": <ID_PROFISSIONAL>,\n  "servicoId": <ID_SERVICO>,\n  "dataHoraInicio": "2025-12-01T10:00:00"\n}\n``` | `201 Created` (Retorna `<ID_AGENDAMENTO>`) | Salve o ID para uso nos testes. |
 
