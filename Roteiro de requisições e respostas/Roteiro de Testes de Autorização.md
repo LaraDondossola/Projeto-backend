@@ -1,4 +1,4 @@
-# Roteiro de Testes de Autorização por Perfil - Projeto cuidar+ (CORRIGIDO)
+# Roteiro de Testes de Autorização por Perfil - Projeto cuidar+ 
 
 Este roteiro fornece um guia passo a passo para testar as regras de permissão da API, simulando o fluxo de trabalho dos perfis ADMIN, CLIENTE e PROFISSIONAL, com base na análise do código-fonte.
 
