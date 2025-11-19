@@ -1,41 +1,31 @@
 package com.example.cuidar.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_clientes")
 public class Cliente extends Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    // O 'id', 'login', 'senha', 'role' e 'ativo' são herdados de Usuario.
+    // REMOVEMOS OS CAMPOS DUPLICADOS DAQUI.
+
+    // Campos que são específicos de Cliente
     private String nome;
-    private String email;
     private String telefone;
-    private Boolean ativo = true;
 
-    public Cliente() {}
+    public Cliente() {
+        super(); // Chama o construtor do Usuario
+    }
 
-    public Cliente(Long id, String nome, String email, String telefone, Boolean ativo) {
-        this.id = id;
+    // Construtor opcional para facilitar
+    public Cliente(String nome, String telefone) {
+        super();
         this.nome = nome;
-        this.email = email;
         this.telefone = telefone;
-        this.ativo = ativo;
     }
 
-    // Getters e Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    // Getters e Setters para os campos de Cliente
     public String getNome() {
         return nome;
     }
@@ -44,27 +34,11 @@ public class Cliente extends Usuario {
         this.nome = nome;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getTelefone() {
         return telefone;
     }
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
     }
 }

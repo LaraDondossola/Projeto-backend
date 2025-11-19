@@ -42,8 +42,7 @@ public class ServicoService {
                 "CRIACAO_SERVICO",
                 ENTITY_NAME,
                 savedServico.getId(),
-                "Novo serviço cadastrado: " + savedServico.getNome(),
-                "Admin/Sistema"
+                "Novo serviço cadastrado: " + savedServico.getNome()
         );
 
         return toResponseDto(savedServico);
@@ -84,8 +83,7 @@ public class ServicoService {
                 "ATUALIZACAO_SERVICO",
                 ENTITY_NAME,
                 updatedServico.getId(),
-                "Serviço atualizado: " + updatedServico.getNome(),
-                "Admin/Sistema"
+                "Serviço atualizado: " + updatedServico.getNome()
         );
 
         return toResponseDto(updatedServico);
@@ -104,8 +102,7 @@ public class ServicoService {
                     "DESATIVACAO_SERVICO",
                     ENTITY_NAME,
                     id,
-                    "Serviço desativado logicamente: " + servico.getNome(),
-                    "Admin/Sistema"
+                    "Serviço desativado logicamente: " + servico.getNome()
             );
         }
     }

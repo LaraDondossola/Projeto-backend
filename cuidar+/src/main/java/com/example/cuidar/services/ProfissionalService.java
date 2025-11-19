@@ -4,6 +4,7 @@ import com.example.cuidar.dtos.profissional.ProfissionalCreateDto;
 import com.example.cuidar.dtos.profissional.ProfissionalResponseDto;
 import com.example.cuidar.dtos.profissional.ProfissionalUpdateDto;
 import com.example.cuidar.models.Profissional;
+import com.example.cuidar.models.Role;
 import com.example.cuidar.repositories.ProfissionalRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -26,14 +28,22 @@ public class ProfissionalService {
     @Autowired
     private AuditLogService auditLogService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PreAuthorize("hasRole('ADMIN')")
     public ProfissionalResponseDto create(ProfissionalCreateDto dto) {
         Profissional profissional = new Profissional();
+
         profissional.setNome(dto.nome());
         profissional.setEmail(dto.email());
         profissional.setTelefone(dto.telefone());
         profissional.setEspecialidade(dto.especialidade());
+
+        profissional.setLogin(dto.email());
+        profissional.setSenha(passwordEncoder.encode(dto.senha()));
+        profissional.setRole(Role.PROFISSIONAL);
+
         profissional.setAtivo(true);
 
         Profissional savedProfissional = profissionalRepository.save(profissional);
@@ -42,8 +52,7 @@ public class ProfissionalService {
                 "CRIACAO_PROFISSIONAL",
                 ENTITY_NAME,
                 savedProfissional.getId(),
-                "Novo profissional cadastrado.",
-                savedProfissional.getNome()
+                "Novo profissional cadastrado."
         );
 
         return toResponseDto(savedProfissional);
@@ -85,8 +94,7 @@ public class ProfissionalService {
                 "ATUALIZACAO_PROFISSIONAL",
                 ENTITY_NAME,
                 updatedProfissional.getId(),
-                "Dados do profissional atualizados.",
-                updatedProfissional.getNome()
+                "Dados do profissional atualizados."
         );
 
         return toResponseDto(updatedProfissional);
@@ -105,8 +113,7 @@ public class ProfissionalService {
                     "DESATIVACAO_PROFISSIONAL",
                     ENTITY_NAME,
                     id,
-                    "Profissional desativado logicamente.",
-                    profissional.getNome()
+                    "Profissional desativado logicamente."
             );
         }
     }

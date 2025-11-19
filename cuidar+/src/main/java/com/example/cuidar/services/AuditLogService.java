@@ -8,6 +8,9 @@ import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +29,7 @@ public class AuditLogService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void registrarLog(String tipoAcao, String entidadeAfetada, Long entidadeId, String detalhes, String usuarioResponsavel) {
+    public void registrarLog(String tipoAcao, String entidadeAfetada, Long entidadeId, String detalhes) {
         LogAuditoria log = new LogAuditoria();
         log.setDataHoraAcao(LocalDateTime.now());
         log.setTipoAcao(tipoAcao);
@@ -34,10 +37,37 @@ public class AuditLogService {
         log.setEntidadeId(entidadeId);
         log.setDetalhes(detalhes);
 
-        log.setUsuarioResponsavel(usuarioResponsavel != null ? usuarioResponsavel : "Sistema/Anonimo");
+        log.setUsuarioResponsavel(getUsuarioLogado());
 
         logAuditoriaRepository.save(log);
     }
+
+    private String getUsuarioLogado() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 1. Verifica se a autenticação é nula ou se não está autenticada
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "usuário não logado";
+        }
+
+        Object principal = authentication.getPrincipal();
+
+        // 2. Verifica se o principal é o usuário anônimo padrão do Spring Security
+        // Isso é crucial para distinguir um usuário autenticado de um acesso anônimo.
+        if (principal instanceof String && "anonymousUser".equals(principal)) {
+            return "usuário não logado";
+        }
+
+        // 3. Obtém o nome de usuário se o principal for UserDetails
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        }
+
+        // 4. Retorna a representação do principal em outros casos (por exemplo, token JWT)
+        // Isso cobre casos onde o Principal não é um UserDetails, mas está autenticado.
+        return principal.toString();
+    }
+
 
     public Page<LogAuditoriaResponseDto> findAll(
             String entidade,

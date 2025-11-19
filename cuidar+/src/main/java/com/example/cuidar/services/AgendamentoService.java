@@ -26,6 +26,7 @@ import java.util.Optional;
 public class AgendamentoService {
 
     private static final String ENTITY_NAME = "Agendamento";
+    private static final String STATUS_CANCELADO = "CANCELADO";
 
     private final AgendamentoRepository agendamentoRepository;
     private final ClienteService clienteService;
@@ -53,13 +54,16 @@ public class AgendamentoService {
         Profissional profissional = profissionalService.findModelById(dto.profissionalId());
         Servico servico = servicoService.findModelById(dto.servicoId());
 
-        LocalDateTime dataHoraFim = dto.dataHoraInicio().plusMinutes(servico.getDuracaoEmMinutos());
+        LocalDateTime dataHoraInicio = dto.dataHoraInicio();
+        LocalDateTime dataHoraFim = dataHoraInicio.plusMinutes(servico.getDuracaoEmMinutos());
+
+        validarConflitos(profissional.getId(), cliente.getId(), dataHoraInicio, dataHoraFim, null);
 
         Agendamento agendamento = new Agendamento();
         agendamento.setCliente(cliente);
         agendamento.setProfissional(profissional);
         agendamento.setServico(servico);
-        agendamento.setDataHoraInicio(dto.dataHoraInicio());
+        agendamento.setDataHoraInicio(dataHoraInicio);
         agendamento.setDataHoraFim(dataHoraFim);
         agendamento.setStatus("PENDENTE");
 
@@ -70,8 +74,7 @@ public class AgendamentoService {
                 ENTITY_NAME,
                 savedAgendamento.getId(),
                 String.format("Novo agendamento criado para o cliente %s com o profissional %s.",
-                        cliente.getNome(), profissional.getNome()),
-                cliente.getNome()
+                        cliente.getNome(), profissional.getNome())
         );
 
         return toResponseDto(savedAgendamento);
@@ -129,10 +132,20 @@ public class AgendamentoService {
         Optional.ofNullable(dto.status()).ifPresent(agendamento::setStatus);
 
         if (dto.dataHoraInicio() != null) {
-            agendamento.setDataHoraInicio(dto.dataHoraInicio());
-
+            LocalDateTime novoInicio = dto.dataHoraInicio();
             Servico servico = agendamento.getServico();
-            agendamento.setDataHoraFim(dto.dataHoraInicio().plusMinutes(servico.getDuracaoEmMinutos()));
+            LocalDateTime novoFim = novoInicio.plusMinutes(servico.getDuracaoEmMinutos());
+
+            validarConflitos(
+                    agendamento.getProfissional().getId(),
+                    agendamento.getCliente().getId(),
+                    novoInicio,
+                    novoFim,
+                    id
+            );
+
+            agendamento.setDataHoraInicio(novoInicio);
+            agendamento.setDataHoraFim(novoFim);
         }
 
         Agendamento updatedAgendamento = agendamentoRepository.save(agendamento);
@@ -144,8 +157,7 @@ public class AgendamentoService {
                 "ATUALIZACAO_AGENDAMENTO",
                 ENTITY_NAME,
                 updatedAgendamento.getId(),
-                detalhes,
-                updatedAgendamento.getCliente().getNome()
+                detalhes
         );
 
         return toResponseDto(updatedAgendamento);
@@ -156,21 +168,52 @@ public class AgendamentoService {
     public void delete(Long id) {
         Agendamento agendamento = findModelById(id);
 
-        if (!"CANCELADO".equals(agendamento.getStatus())) {
-            agendamento.setStatus("CANCELADO");
+        if (!STATUS_CANCELADO.equals(agendamento.getStatus())) {
+            agendamento.setStatus(STATUS_CANCELADO);
             agendamentoRepository.save(agendamento);
 
             auditLogService.registrarLog(
                     "CANCELAMENTO_AGENDAMENTO",
                     ENTITY_NAME,
                     id,
-                    "Agendamento cancelado.",
-                    agendamento.getCliente().getNome()
+                    "Agendamento cancelado."
             );
         }
     }
 
-    // Métodos auxiliares para @PreAuthorize
+    private void validarConflitos(Long profissionalId, Long clienteId, LocalDateTime inicio, LocalDateTime fim, Long agendamentoIdParaIgnorar) {
+
+        List<Agendamento> conflitosProfissional;
+        List<Agendamento> conflitosCliente;
+
+        if (agendamentoIdParaIgnorar == null) {
+            conflitosProfissional = agendamentoRepository
+                    .findByProfissionalIdAndStatusNotAndDataHoraInicioBeforeAndDataHoraFimAfter(
+                            profissionalId, STATUS_CANCELADO, fim, inicio);
+
+            conflitosCliente = agendamentoRepository
+                    .findByClienteIdAndStatusNotAndDataHoraInicioBeforeAndDataHoraFimAfter(
+                            clienteId, STATUS_CANCELADO, fim, inicio);
+        } else {
+            conflitosProfissional = agendamentoRepository
+                    .findByProfissionalIdAndStatusNotAndDataHoraInicioBeforeAndDataHoraFimAfterAndIdNot(
+                            profissionalId, STATUS_CANCELADO, fim, inicio, agendamentoIdParaIgnorar);
+
+            conflitosCliente = agendamentoRepository
+                    .findByClienteIdAndStatusNotAndDataHoraInicioBeforeAndDataHoraFimAfterAndIdNot(
+                            clienteId, STATUS_CANCELADO, fim, inicio, agendamentoIdParaIgnorar);
+        }
+
+        if (!conflitosProfissional.isEmpty()) {
+            throw new IllegalStateException("Conflito de horário: O profissional já está ocupado.");
+        }
+
+        if (!conflitosCliente.isEmpty()) {
+            throw new IllegalStateException("Conflito de horário: O cliente já possui um agendamento neste horário.");
+        }
+    }
+
+
     public boolean isAgendamentoOwner(Long agendamentoId, Long userId) {
         Agendamento agendamento = findModelById(agendamentoId);
         return agendamento.getCliente().getId().equals(userId);
@@ -198,4 +241,3 @@ public class AgendamentoService {
         );
     }
 }
-

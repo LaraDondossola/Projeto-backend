@@ -24,6 +24,7 @@ public class Profissional extends Usuario {
     public Profissional() {}
 
     public Profissional(Long id, String nome, String email, String telefone, String especialidade, Boolean ativo) {
+        super(); // Chama o construtor vazio de Usuario
         this.id = id;
         this.nome = nome;
         this.email = email;

@@ -68,8 +68,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         // O filtro não deve ser aplicado se for uma rota POST pública
         if (request.getMethod().equals("POST")) {
-            // Ajuste: O POST para /clientes é público (conforme SecurityConfig)
-            if (path.startsWith("/auth") || path.startsWith("/clientes")) {
+            // AJUSTE: Removemos a exceção para /clientes aqui.
+            // Agora, o POST /clientes SEMPRE passará pelo filtro.
+            if (path.startsWith("/auth")) {
                 return true;
             }
         }

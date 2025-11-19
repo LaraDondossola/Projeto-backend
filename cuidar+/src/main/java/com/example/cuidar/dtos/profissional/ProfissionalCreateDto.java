@@ -19,5 +19,9 @@ public record ProfissionalCreateDto(
 
         @NotBlank(message = "A especialidade é obrigatória.")
         @Size(max = 50, message = "A especialidade não pode exceder 50 caracteres.")
-        String especialidade
+        String especialidade,
+
+        @NotBlank(message = "A senha é obrigatória.")
+        @Size(min = 6, max = 50, message = "A senha deve ter entre 6 e 50 caracteres.")
+        String senha
 ) {}

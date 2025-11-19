@@ -47,8 +47,7 @@ public class ClienteService {
                 "CRIACAO_CLIENTE",
                 ENTITY_NAME,
                 savedCliente.getId(),
-                "Novo cliente cadastrado.",
-                savedCliente.getNome()
+                "Novo cliente cadastrado."
         );
 
         return toResponseDto(savedCliente);
@@ -96,8 +95,7 @@ public class ClienteService {
                 "ATUALIZACAO_CLIENTE",
                 ENTITY_NAME,
                 updatedCliente.getId(),
-                "Dados do cliente atualizados.",
-                updatedCliente.getNome()
+                "Dados do cliente atualizados."
         );
 
         return toResponseDto(updatedCliente);
@@ -117,8 +115,7 @@ public class ClienteService {
                     "DESATIVACAO_CLIENTE",
                     ENTITY_NAME,
                     id,
-                    "Cliente desativado logicamente.",
-                    cliente.getNome()
+                    "Cliente desativado logicamente."
             );
         }
     }
