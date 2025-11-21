@@ -42,7 +42,6 @@ public class AuthController {
         return ResponseEntity.ok(token);
     }
 
-    // Método de inicialização para criar um ADMIN para testes
     @PostMapping("/register-admin")
     public ResponseEntity<String> registerAdmin() {
         if (usuarioRepository.findByLogin("admin") != null) {
