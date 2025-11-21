@@ -47,17 +47,14 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        // Lista de rotas públicas que o filtro deve ignorar
         List<String> publicPaths = Arrays.asList(
                 "/auth",
-                // "/clientes" FOI REMOVIDO DESTA LISTA
                 "/profissionais",
                 "/servicos"
         );
 
         String path = request.getServletPath();
 
-        // O filtro não deve ser aplicado se for uma rota GET pública
         if (request.getMethod().equals("GET")) {
             for (String publicPath : publicPaths) {
                 if (path.startsWith(publicPath)) {
@@ -66,10 +63,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
         }
 
-        // O filtro não deve ser aplicado se for uma rota POST pública
         if (request.getMethod().equals("POST")) {
-            // AJUSTE: Removemos a exceção para /clientes aqui.
-            // Agora, o POST /clientes SEMPRE passará pelo filtro.
             if (path.startsWith("/auth")) {
                 return true;
             }
