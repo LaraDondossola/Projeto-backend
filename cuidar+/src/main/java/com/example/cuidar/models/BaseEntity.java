@@ -21,7 +21,6 @@ public abstract class BaseEntity {
     @Column(nullable = false)
     private LocalDateTime dataAtualizacao;
 
-    // Getters e Setters para os campos de auditoria
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
