@@ -18,7 +18,7 @@ public class Usuario extends BaseEntity implements UserDetails {
     private Long id;
 
     @Column(unique = true)
-    private String login; // Pode ser o email
+    private String login;
     private String senha;
 
     @Enumerated(EnumType.STRING)
