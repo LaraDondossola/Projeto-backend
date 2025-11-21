@@ -15,15 +15,13 @@ public class LogAuditoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime dataHoraAcao; // Quando a ação ocorreu
-
-    private String usuarioResponsavel; // Quem realizou a ação (Nome ou ID)
-
+    private LocalDateTime dataHoraAcao; 
+    private String usuarioResponsavel; 
     private String tipoAcao; // Ex: CRIACAO_CLIENTE, CANCELAMENTO_AGENDAMENTO, ATUALIZACAO_SERVICO
-    private String detalhes; // Descrição completa da mudança ou erro
+    private String detalhes;
     private String entidadeAfetada; // Ex: Cliente, Agendamento, Profissional
-    private Long entidadeId; // O ID da entidade que foi afetada
-
+    private Long entidadeId;
+    
     public LogAuditoria() {}
 
     // Getters e Setters
