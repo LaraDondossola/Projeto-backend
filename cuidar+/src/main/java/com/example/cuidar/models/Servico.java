@@ -31,7 +31,6 @@ public class Servico extends BaseEntity {
         this.ativo = ativo;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
