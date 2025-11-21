@@ -44,27 +44,16 @@ public class AuditLogService {
 
     private String getUsuarioLogado() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // 1. Verifica se a autenticação é nula ou se não está autenticada
         if (authentication == null || !authentication.isAuthenticated()) {
             return "usuário não logado";
         }
-
         Object principal = authentication.getPrincipal();
-
-        // 2. Verifica se o principal é o usuário anônimo padrão do Spring Security
-        // Isso é crucial para distinguir um usuário autenticado de um acesso anônimo.
         if (principal instanceof String && "anonymousUser".equals(principal)) {
             return "usuário não logado";
         }
-
-        // 3. Obtém o nome de usuário se o principal for UserDetails
         if (principal instanceof UserDetails) {
             return ((UserDetails) principal).getUsername();
         }
-
-        // 4. Retorna a representação do principal em outros casos (por exemplo, token JWT)
-        // Isso cobre casos onde o Principal não é um UserDetails, mas está autenticado.
         return principal.toString();
     }
 
