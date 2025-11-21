@@ -43,7 +43,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/agendamentos").authenticated()
                         .anyRequest().authenticated()
                 )
-                // LINHA ADICIONADA: Registra nosso filtro para rodar antes do filtro padrão
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(authenticationEntryPoint)
