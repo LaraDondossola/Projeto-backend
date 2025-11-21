@@ -14,11 +14,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        // Define o status da resposta como 401 Unauthorized
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        // Define o tipo de conteúdo da resposta
         response.setContentType("application/json");
-        // Escreve o corpo da resposta
         response.getWriter().write("{\"error\": \"Não Autorizado\", \"message\": \"Acesso negado. Credenciais de autenticação ausentes ou inválidas.\"}");
     }
 }
