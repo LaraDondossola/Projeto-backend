@@ -24,7 +24,7 @@ public class Profissional extends Usuario {
     public Profissional() {}
 
     public Profissional(Long id, String nome, String email, String telefone, String especialidade, Boolean ativo) {
-        super(); // Chama o construtor vazio de Usuario
+        super();
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -33,7 +33,6 @@ public class Profissional extends Usuario {
         this.ativo = ativo;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
