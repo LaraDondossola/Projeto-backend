@@ -3,10 +3,7 @@ package com.example.cuidar.services;
 import com.example.cuidar.dtos.agendamento.AgendamentoCreateDto;
 import com.example.cuidar.dtos.agendamento.AgendamentoResponseDto;
 import com.example.cuidar.dtos.agendamento.AgendamentoUpdateDto;
-import com.example.cuidar.models.Agendamento;
-import com.example.cuidar.models.Cliente;
-import com.example.cuidar.models.Profissional;
-import com.example.cuidar.models.Servico;
+import com.example.cuidar.models.*;
 import com.example.cuidar.repositories.AgendamentoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
@@ -15,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -50,6 +48,13 @@ public class AgendamentoService {
 
     @PreAuthorize("hasAnyRole('CLIENTE', 'ADMIN')")
     public AgendamentoResponseDto create(AgendamentoCreateDto dto) {
+        Usuario usuarioAutenticado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userIdAutenticado = usuarioAutenticado.getId();
+
+        if (usuarioAutenticado instanceof Cliente && !dto.clienteId().equals(userIdAutenticado)) {
+            throw new IllegalStateException("Um cliente só pode agendar para si mesmo.");
+        }
+
         Cliente cliente = clienteService.findModelById(dto.clienteId());
         Profissional profissional = profissionalService.findModelById(dto.profissionalId());
         Servico servico = servicoService.findModelById(dto.servicoId());
