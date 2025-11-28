@@ -297,3 +297,7 @@ Toda a API (exceto o login) é protegida por tokens JWT. O fluxo de segurança i
 ### 🧾 3. Uso de DTOs (Data Transfer Objects)
 
 O projeto utiliza DTOs (`AgendamentoCreateDto`, `ClienteResponseDto`, etc.) para desacoplar as entidades do banco de dados (Models) da camada de transporte (Controllers), garantindo a validação dos dados de entrada e a exposição controlada dos dados de saída.
+
+## Slides
+
+Para acessar os slides da apresentação, clique [aqui.](https://github.com/LaraDondossola/Projeto-backend/blob/main/CUIDAR%2B.pdf)
